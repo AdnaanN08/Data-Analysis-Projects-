@@ -1,147 +1,215 @@
-# Data-Analysis-Projects-
-Various Data Analysis Projects 
-# Mean-Variance-Standard Deviation Calculator 📊
+# Time Series Visualizer
 
-A Python project that calculates statistical measures (mean, variance, standard deviation, max, min, and sum) for a 3×3 matrix using NumPy.
+A comprehensive data visualization project that analyzes and visualizes freeCodeCamp forum page view data from 2016 to 2019. This project demonstrates time series analysis using Python's powerful data visualization libraries.
 
-## 🎯 Overview
+## Overview
 
-This calculator takes a list of 9 numbers, converts it into a 3×3 NumPy array, and computes various statistical measures along different axes:
-- **Axis 0**: Statistics calculated down each column (3 values)
-- **Axis 1**: Statistics calculated across each row (3 values)
-- **Flattened**: Statistics for the entire matrix as a 1D array (1 value)
+This project creates three different types of visualizations to help understand patterns in daily page views:
+- **Line Chart**: Shows daily page views over time to identify overall trends
+- **Bar Chart**: Displays average monthly page views grouped by year to compare seasonal patterns
+- **Box Plots**: Reveals data distribution patterns by year and month to identify outliers and seasonality
 
-## 📋 Features
+## Features
 
-- ✅ Input validation (ensures exactly 9 numbers)
-- ✅ Comprehensive statistical calculations
-- ✅ Clean dictionary output format
-- ✅ Error handling with descriptive messages
-- ✅ Random matrix testing
+✅ **Data Cleaning**: Automatically filters outliers (top and bottom 2.5%)  
+✅ **Multiple Visualization Types**: Line plots, bar charts, and box plots  
+✅ **Trend Analysis**: Identifies yearly growth patterns  
+✅ **Seasonality Detection**: Reveals monthly patterns in user activity  
+✅ **Professional Styling**: Clean, publication-ready charts  
 
-## 🏗️ Project Structure
+## Dataset
 
+The project uses `fcc-forum-pageviews.csv` containing:
+- **Date Range**: May 9, 2016 to December 3, 2019
+- **Data Points**: Daily page view counts
+- **Format**: CSV with `date` and `value` columns
+
+## Requirements
+
+```python
+pandas
+matplotlib
+seaborn
+numpy
 ```
-📁 Project Directory
-├── 📄 mean_var_std.py    # Core calculation function
-├── 📄 main.py           # Test script with random matrix
-└── 📄 README.md         # This documentation
-```
 
-## 🔧 Requirements
-
-- Python 3.x
-- NumPy
-
-Install NumPy if you haven't already:
+Install dependencies:
 ```bash
-pip install numpy
+pip install pandas matplotlib seaborn numpy
 ```
 
-## 🚀 Usage
+## Project Structure
 
-### Basic Usage
-
-```python
-from mean_var_std import calculate
-
-# Example with sequential numbers
-result = calculate([0, 1, 2, 3, 4, 5, 6, 7, 8])
-print(result)
+```
+time-series-visualizer/
+├── README.md
+├── time_series_visualizer.py    # Main visualization functions
+├── main.py                      # Testing and execution script
+├── fcc-forum-pageviews.csv     # Dataset file
+├── line_plot.png               # Generated line chart
+├── bar_plot.png                # Generated bar chart
+└── box_plot.png                # Generated box plots
 ```
 
-### Running the Test
+## Usage
 
-```bash
-python3 main.py
-```
+### Quick Start
 
-This will generate a random 3×3 matrix and display all calculated statistics.
-
-## 📊 Function Details
-
-### `calculate(list)`
-
-**Parameters:**
-- `list`: A list containing exactly 9 numbers
-
-**Returns:**
-A dictionary with the following structure:
-```python
-{
-  'mean': [axis0_values, axis1_values, flattened_value],
-  'variance': [axis0_values, axis1_values, flattened_value],
-  'standard deviation': [axis0_values, axis1_values, flattened_value],
-  'max': [axis0_values, axis1_values, flattened_value],
-  'min': [axis0_values, axis1_values, flattened_value],
-  'sum': [axis0_values, axis1_values, flattened_value]
-}
-```
-
-**Raises:**
-- `ValueError`: If the input list doesn't contain exactly 9 elements
-
-## 📝 Example
-
-### Input:
-```python
-calculate([0, 1, 2, 3, 4, 5, 6, 7, 8])
-```
-
-### Matrix Representation:
-```
-[[0, 1, 2],
- [3, 4, 5],
- [6, 7, 8]]
-```
-
-### Output:
-```python
-{
-  'mean': [[3.0, 4.0, 5.0], [1.0, 4.0, 7.0], 4.0],
-  'variance': [[6.0, 6.0, 6.0], [0.6666666666666666, 0.6666666666666666, 0.6666666666666666], 6.666666666666667],
-  'standard deviation': [[2.449489742783178, 2.449489742783178, 2.449489742783178], [0.816496580927726, 0.816496580927726, 0.816496580927726], 2.581988897471611],
-  'max': [[6, 7, 8], [2, 5, 8], 8],
-  'min': [[0, 1, 2], [0, 3, 6], 0],
-  'sum': [[9, 12, 15], [3, 12, 21], 36]
-}
-```
-
-## 🧮 Understanding the Axes
-
-- **Axis 0 (Columns)**: Calculates statistics vertically down each column
-  - Column 1: [0, 3, 6] → mean = 3.0
-  - Column 2: [1, 4, 7] → mean = 4.0  
-  - Column 3: [2, 5, 8] → mean = 5.0
-
-- **Axis 1 (Rows)**: Calculates statistics horizontally across each row
-  - Row 1: [0, 1, 2] → mean = 1.0
-  - Row 2: [3, 4, 5] → mean = 4.0
-  - Row 3: [6, 7, 8] → mean = 7.0
-
-- **Flattened**: Treats the entire matrix as [0, 1, 2, 3, 4, 5, 6, 7, 8] → mean = 4.0
-
-## ⚠️ Error Handling
-
-The function will raise a `ValueError` with the message "List must contain nine numbers." if:
-- The input list has fewer than 9 elements
-- The input list has more than 9 elements
-
-## 🧪 Testing
-
-Run the included test script to see the function in action with a randomly generated matrix:
+1. **Clone/Download** the project files
+2. **Ensure** `fcc-forum-pageviews.csv` is in the project directory
+3. **Run** the main script:
 
 ```bash
-python3 main.py
+python main.py
 ```
 
-Each run will generate a new random 3×3 matrix using digits 0-9, perfect for testing the statistical calculations.
+### Individual Functions
 
-## 📚 Dependencies
+```python
+import time_series_visualizer
 
-- **NumPy**: Used for efficient array operations and statistical calculations
-- **Random**: Used in the test script for generating random matrices
+# Generate line plot
+fig1 = time_series_visualizer.draw_line_plot()
+
+# Generate bar chart
+fig2 = time_series_visualizer.draw_bar_plot()
+
+# Generate box plots
+fig3 = time_series_visualizer.draw_box_plot()
+```
+
+## Visualizations
+
+### 1. Line Plot (`draw_line_plot`)
+- **Purpose**: Shows daily page view trends over time
+- **Output**: `line_plot.png`
+- **Features**: 
+  - Clean time series line chart
+  - Identifies growth patterns and anomalies
+  - Title: "Daily freeCodeCamp Forum Page Views 5/2016-12/2019"
+
+### 2. Bar Chart (`draw_bar_plot`)
+- **Purpose**: Compares average monthly page views by year
+- **Output**: `bar_plot.png`
+- **Features**:
+  - Grouped bars showing months within each year
+  - Legend with month abbreviations (Jan-Dec)
+  - Reveals seasonal patterns and yearly growth
+
+### 3. Box Plots (`draw_box_plot`)
+- **Purpose**: Shows data distribution and identifies outliers
+- **Output**: `box_plot.png`
+- **Features**:
+  - Left plot: Year-wise distribution (trend analysis)
+  - Right plot: Month-wise distribution (seasonality analysis)
+  - Reveals data spread and seasonal variations
+
+## Data Cleaning
+
+The project automatically:
+- Removes extreme outliers (values in top/bottom 2.5%)
+- Handles missing or invalid dates
+- Maintains data integrity for accurate analysis
+
+## Key Insights
+
+The visualizations help identify:
+- **Growth Trends**: Overall increase in forum activity over time
+- **Seasonal Patterns**: Higher activity during certain months (back-to-school periods)
+- **Weekly Cycles**: Different patterns between weekdays and weekends
+- **Outliers**: Unusual spikes or drops in activity
+
+## Customization
+
+### Modify Date Range
+```python
+# In load_and_clean_data function
+df = df['2017-01-01':'2018-12-31']  # Filter specific date range
+```
+
+### Adjust Outlier Filtering
+```python
+# Change percentiles for outlier removal
+lower_percentile = df['value'].quantile(0.05)  # 5% instead of 2.5%
+upper_percentile = df['value'].quantile(0.95)  # 95% instead of 97.5%
+```
+
+### Color Schemes
+```python
+# Line plot color
+ax.plot(df.index, df['value'], color='blue', linewidth=1)
+
+# Bar plot colors (automatic colormap)
+df_bar.plot(kind='bar', ax=ax, colormap='viridis')
+```
+
+## Technical Details
+
+### Data Processing
+- Uses `pandas` for efficient data manipulation
+- Automatic date parsing and indexing
+- Statistical outlier detection using quantiles
+
+### Visualization Libraries
+- **Matplotlib**: Core plotting functionality and customization
+- **Seaborn**: Enhanced statistical visualizations and styling
+- **Pandas**: Built-in plotting methods for quick data exploration
+
+### Performance
+- Efficient memory usage with data copying
+- Optimized for datasets with 1000+ daily records
+- Fast rendering for interactive exploration
+
+## Troubleshooting
+
+### Common Issues
+
+**FileNotFoundError**: CSV file missing
+```bash
+# Ensure the CSV file is in the correct location
+ls fcc-forum-pageviews.csv
+```
+
+**Import Errors**: Missing dependencies
+```bash
+pip install --upgrade pandas matplotlib seaborn
+```
+
+**Empty Plots**: Data filtering too aggressive
+```python
+# Check data after filtering
+df = load_and_clean_data()
+print(f"Data points after cleaning: {len(df)}")
+```
+
+### Data Format Issues
+
+Ensure your CSV has the correct format:
+```
+date,value
+2016-05-09,19736
+2016-05-10,19755
+...
+```
+
+## Contributing
+
+Feel free to contribute improvements:
+1. **Fork** the repository
+2. **Create** a feature branch
+3. **Add** your enhancements
+4. **Submit** a pull request
+
+## License
+
+This project is open source and available under the MIT License.
+
+## Acknowledgments
+
+- Data source: freeCodeCamp.org forum analytics
+- Built for educational purposes and data science learning
+- Demonstrates best practices in time series visualization
 
 ---
 
-*This project demonstrates practical use of NumPy for statistical calculations and matrix operations.*
+**Happy Data Visualizing! 📊**
