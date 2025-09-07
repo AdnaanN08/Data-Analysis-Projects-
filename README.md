@@ -1,147 +1,209 @@
-# Data-Analysis-Projects-
-Various Data Analysis Projects 
-# Mean-Variance-Standard Deviation Calculator 📊
+# Medical Data Visualizer
 
-A Python project that calculates statistical measures (mean, variance, standard deviation, max, min, and sum) for a 3×3 matrix using NumPy.
+A comprehensive Python project for visualizing and analyzing medical examination data to explore relationships between cardiovascular disease, body measurements, blood markers, and lifestyle choices using matplotlib, seaborn, and pandas.
 
-## 🎯 Overview
+## Project Overview
 
-This calculator takes a list of 9 numbers, converts it into a 3×3 NumPy array, and computes various statistical measures along different axes:
-- **Axis 0**: Statistics calculated down each column (3 values)
-- **Axis 1**: Statistics calculated across each row (3 values)
-- **Flattened**: Statistics for the entire matrix as a 1D array (1 value)
+This project analyzes medical examination data collected during patient checkups to identify patterns and correlations related to cardiovascular disease. The analysis focuses on understanding how various factors like BMI, blood pressure, cholesterol levels, glucose levels, and lifestyle choices (smoking, alcohol consumption, physical activity) relate to heart disease outcomes.
 
-## 📋 Features
+## Dataset Description
 
-- ✅ Input validation (ensures exactly 9 numbers)
-- ✅ Comprehensive statistical calculations
-- ✅ Clean dictionary output format
-- ✅ Error handling with descriptive messages
-- ✅ Random matrix testing
+The dataset contains medical examination data with the following features:
 
-## 🏗️ Project Structure
+### Objective Features (Factual Information)
+| Feature | Variable | Type | Description |
+|---------|----------|------|-------------|
+| Age | `age` | int | Age in days |
+| Height | `height` | int | Height in centimeters |
+| Weight | `weight` | float | Weight in kilograms |
+| Gender | `gender` | categorical | Gender code (1: Female, 2: Male) |
+
+### Examination Features (Medical Results)
+| Feature | Variable | Type | Description |
+|---------|----------|------|-------------|
+| Systolic Blood Pressure | `ap_hi` | int | Upper blood pressure value |
+| Diastolic Blood Pressure | `ap_lo` | int | Lower blood pressure value |
+| Cholesterol | `cholesterol` | categorical | 1: normal, 2: above normal, 3: well above normal |
+| Glucose | `gluc` | categorical | 1: normal, 2: above normal, 3: well above normal |
+
+### Subjective Features (Lifestyle Information)
+| Feature | Variable | Type | Description |
+|---------|----------|------|-------------|
+| Smoking | `smoke` | binary | 0: No, 1: Yes |
+| Alcohol Intake | `alco` | binary | 0: No, 1: Yes |
+| Physical Activity | `active` | binary | 0: No, 1: Yes |
+
+### Target Variable
+| Feature | Variable | Type | Description |
+|---------|----------|------|-------------|
+| Cardiovascular Disease | `cardio` | binary | 0: No disease, 1: Disease present |
+
+## Generated Features
+
+The project creates additional calculated features:
+
+- **BMI (Body Mass Index)**: Calculated from height and weight
+- **Overweight**: Binary indicator (1 if BMI > 25, 0 otherwise)
+
+## Visualizations
+
+### 1. Categorical Plot (Figure 1)
+- **Purpose**: Shows the relationship between lifestyle factors and cardiovascular disease
+- **Features Analyzed**: cholesterol, glucose, smoking, alcohol, physical activity, overweight
+- **Layout**: Side-by-side comparison of patients with and without cardiovascular disease
+- **Chart Type**: Grouped bar chart showing counts of good vs bad outcomes
+- **Output**: `catplot.png`
+
+### 2. Correlation Heatmap
+- **Purpose**: Displays correlations between all numerical variables
+- **Features**: All medical and lifestyle variables
+- **Data Cleaning**: Removes outliers and invalid measurements
+- **Visualization**: Lower triangle heatmap with correlation coefficients
+- **Output**: `heatmap.png`
+
+## Project Structure
 
 ```
-📁 Project Directory
-├── 📄 mean_var_std.py    # Core calculation function
-├── 📄 main.py           # Test script with random matrix
-└── 📄 README.md         # This documentation
+medical-data-visualizer/
+│
+├── medical_data_visualizer.py    # Main analysis and visualization script
+├── main.py                      # Entry point for running analysis
+├── medical_examination.csv      # Dataset file
+├── catplot.png                  # Generated categorical plot
+├── heatmap.png                  # Generated correlation heatmap
+└── README.md                    # Project documentation
 ```
 
-## 🔧 Requirements
+## Requirements
 
-- Python 3.x
-- NumPy
+- Python 3.6+
+- pandas
+- matplotlib
+- seaborn
+- numpy
 
-Install NumPy if you haven't already:
+Install dependencies:
 ```bash
-pip install numpy
+pip install pandas matplotlib seaborn numpy
 ```
 
-## 🚀 Usage
+## Usage
 
-### Basic Usage
-
-```python
-from mean_var_std import calculate
-
-# Example with sequential numbers
-result = calculate([0, 1, 2, 3, 4, 5, 6, 7, 8])
-print(result)
-```
-
-### Running the Test
-
+### Quick Start
 ```bash
-python3 main.py
+# Run the complete analysis
+python main.py
 ```
 
-This will generate a random 3×3 matrix and display all calculated statistics.
-
-## 📊 Function Details
-
-### `calculate(list)`
-
-**Parameters:**
-- `list`: A list containing exactly 9 numbers
-
-**Returns:**
-A dictionary with the following structure:
+### Module Usage
 ```python
-{
-  'mean': [axis0_values, axis1_values, flattened_value],
-  'variance': [axis0_values, axis1_values, flattened_value],
-  'standard deviation': [axis0_values, axis1_values, flattened_value],
-  'max': [axis0_values, axis1_values, flattened_value],
-  'min': [axis0_values, axis1_values, flattened_value],
-  'sum': [axis0_values, axis1_values, flattened_value]
-}
+import medical_data_visualizer
+
+# Generate categorical plot
+fig1 = medical_data_visualizer.draw_cat_plot()
+
+# Generate correlation heatmap  
+fig2 = medical_data_visualizer.draw_heat_map()
 ```
 
-**Raises:**
-- `ValueError`: If the input list doesn't contain exactly 9 elements
+## Data Processing Steps
 
-## 📝 Example
+### 1. Data Loading and Preparation
+- Import medical examination data from CSV
+- Validate data types and structure
 
-### Input:
-```python
-calculate([0, 1, 2, 3, 4, 5, 6, 7, 8])
-```
+### 2. Feature Engineering
+- **BMI Calculation**: `weight (kg) / (height (m))²`
+- **Overweight Classification**: BMI > 25 threshold
+- **Binary Normalization**: Convert cholesterol and glucose to binary (normal vs abnormal)
 
-### Matrix Representation:
-```
-[[0, 1, 2],
- [3, 4, 5],
- [6, 7, 8]]
-```
+### 3. Data Cleaning (for correlation analysis)
+- Remove patients with diastolic pressure > systolic pressure
+- Filter out height values below 2.5th percentile or above 97.5th percentile
+- Filter out weight values below 2.5th percentile or above 97.5th percentile
+- Remove physiologically impossible measurements
 
-### Output:
-```python
-{
-  'mean': [[3.0, 4.0, 5.0], [1.0, 4.0, 7.0], 4.0],
-  'variance': [[6.0, 6.0, 6.0], [0.6666666666666666, 0.6666666666666666, 0.6666666666666666], 6.666666666666667],
-  'standard deviation': [[2.449489742783178, 2.449489742783178, 2.449489742783178], [0.816496580927726, 0.816496580927726, 0.816496580927726], 2.581988897471611],
-  'max': [[6, 7, 8], [2, 5, 8], 8],
-  'min': [[0, 1, 2], [0, 3, 6], 0],
-  'sum': [[9, 12, 15], [3, 12, 21], 36]
-}
-```
+### 4. Statistical Analysis
+- Calculate correlation matrix between all variables
+- Generate summary statistics for different patient groups
 
-## 🧮 Understanding the Axes
+## Key Insights
 
-- **Axis 0 (Columns)**: Calculates statistics vertically down each column
-  - Column 1: [0, 3, 6] → mean = 3.0
-  - Column 2: [1, 4, 7] → mean = 4.0  
-  - Column 3: [2, 5, 8] → mean = 5.0
+The visualizations help identify:
 
-- **Axis 1 (Rows)**: Calculates statistics horizontally across each row
-  - Row 1: [0, 1, 2] → mean = 1.0
-  - Row 2: [3, 4, 5] → mean = 4.0
-  - Row 3: [6, 7, 8] → mean = 7.0
+1. **Risk Factor Patterns**: How lifestyle choices correlate with cardiovascular disease
+2. **Medical Marker Relationships**: Connections between blood pressure, cholesterol, and glucose
+3. **Demographic Influences**: Age and gender effects on health outcomes
+4. **Lifestyle Impact**: Effect of smoking, alcohol, and physical activity on heart health
+5. **BMI Correlations**: Relationship between obesity and cardiovascular risk
 
-- **Flattened**: Treats the entire matrix as [0, 1, 2, 3, 4, 5, 6, 7, 8] → mean = 4.0
+## Technical Implementation
 
-## ⚠️ Error Handling
+### Categorical Plot Features
+- **Data Reshaping**: Uses `pd.melt()` for long-format data transformation
+- **Grouping**: Groups by cardiovascular disease status and feature values
+- **Visualization**: Seaborn catplot with bar chart representation
+- **Comparison**: Side-by-side panels for disease vs no-disease groups
 
-The function will raise a `ValueError` with the message "List must contain nine numbers." if:
-- The input list has fewer than 9 elements
-- The input list has more than 9 elements
+### Correlation Heatmap Features
+- **Data Filtering**: Advanced outlier detection and removal
+- **Correlation Calculation**: Pearson correlation coefficients
+- **Masking**: Upper triangle mask for cleaner visualization
+- **Annotation**: Correlation values displayed on heatmap
+- **Color Scheme**: Diverging color map centered at zero
 
-## 🧪 Testing
+## Sample Output
 
-Run the included test script to see the function in action with a randomly generated matrix:
+### Categorical Plot Insights
+- Compares good vs bad outcomes for each risk factor
+- Separate analysis for patients with and without cardiovascular disease
+- Clear visual representation of risk factor distributions
 
-```bash
-python3 main.py
-```
+### Correlation Heatmap Insights
+- Shows strength and direction of relationships between variables
+- Identifies key predictors of cardiovascular disease
+- Reveals unexpected correlations between lifestyle and medical factors
 
-Each run will generate a new random 3×3 matrix using digits 0-9, perfect for testing the statistical calculations.
+## Development and Testing
 
-## 📚 Dependencies
+The project includes a sample dataset with 50 patients for development and testing purposes. This allows you to:
 
-- **NumPy**: Used for efficient array operations and statistical calculations
-- **Random**: Used in the test script for generating random matrices
+- Test the visualization functions
+- Validate data processing steps  
+- Ensure proper output generation
+- Debug any issues before using full dataset
 
----
+## Data Quality Assurance
 
-*This project demonstrates practical use of NumPy for statistical calculations and matrix operations.*
+- **Outlier Detection**: Statistical methods to identify unrealistic values
+- **Range Validation**: Ensures measurements fall within physiological ranges  
+- **Consistency Checks**: Validates relationships between related measurements
+- **Missing Data Handling**: Proper treatment of incomplete records
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/new-visualization`)
+3. Commit your changes (`git commit -am 'Add new medical visualization'`)
+4. Push to the branch (`git push origin feature/new-visualization`)
+5. Create a Pull Request
+
+## License
+
+This project is open source and available under the MIT License.
+
+## Acknowledgments
+
+- Medical examination data analysis techniques
+- Seaborn and matplotlib visualization libraries
+- Pandas data manipulation capabilities
+- Healthcare data science community
+- Statistical analysis methodologies for medical data
+
+## Future Enhancements
+
+- **Machine Learning Integration**: Predictive models for cardiovascular risk
+- **Interactive Visualizations**: Plotly-based dashboard
+- **Advanced Statistics**: Hypothesis testing and confidence intervals
+- **Time Series Analysis**: Longitudinal patient data tracking
+- **Risk Scoring**: Composite cardiovascular risk calculator
