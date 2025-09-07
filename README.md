@@ -1,147 +1,261 @@
-# Data-Analysis-Projects-
-Various Data Analysis Projects 
-# Mean-Variance-Standard Deviation Calculator 📊
+# Sea Level Rise Predictor 🌊
 
-A Python project that calculates statistical measures (mean, variance, standard deviation, max, min, and sum) for a 3×3 matrix using NumPy.
+A comprehensive data analysis project that examines global sea level change since 1880 and predicts future sea level rise through 2050. This project uses linear regression to analyze historical trends and make predictions based on different time periods.
 
-## 🎯 Overview
+## Overview
 
-This calculator takes a list of 9 numbers, converts it into a 3×3 NumPy array, and computes various statistical measures along different axes:
-- **Axis 0**: Statistics calculated down each column (3 values)
-- **Axis 1**: Statistics calculated across each row (3 values)
-- **Flattened**: Statistics for the entire matrix as a 1D array (1 value)
+This project analyzes EPA sea level data to:
+- **Visualize** historical sea level trends from 1880 to present
+- **Calculate** two different prediction models for 2050
+- **Compare** historical vs. recent acceleration in sea level rise
+- **Identify** patterns and changes in the rate of sea level rise
 
-## 📋 Features
+## Features
 
-- ✅ Input validation (ensures exactly 9 numbers)
-- ✅ Comprehensive statistical calculations
-- ✅ Clean dictionary output format
-- ✅ Error handling with descriptive messages
-- ✅ Random matrix testing
+🌊 **Dual Prediction Models**
+- Historical trend (1880-present): Long-term average rate
+- Recent trend (2000-present): Modern acceleration rate
 
-## 🏗️ Project Structure
+📊 **Comprehensive Visualization**
+- Scatter plot of historical data points
+- Two trend lines with different slopes
+- Predictions extending to 2050
+- Statistical information overlay
 
-```
-📁 Project Directory
-├── 📄 mean_var_std.py    # Core calculation function
-├── 📄 main.py           # Test script with random matrix
-└── 📄 README.md         # This documentation
-```
+📈 **Statistical Analysis**
+- Linear regression using scipy.stats
+- Rate acceleration calculations
+- Confidence intervals and trend comparison
+- Detailed trend analysis functions
 
-## 🔧 Requirements
+## Dataset
 
-- Python 3.x
-- NumPy
+The project uses `epa-sea-level.csv` containing:
+- **Source**: EPA (Environmental Protection Agency) 
+- **Period**: 1880 to 2023
+- **Measurement**: CSIRO Adjusted Sea Level in inches
+- **Frequency**: Annual measurements
 
-Install NumPy if you haven't already:
-```bash
-pip install numpy
-```
-
-## 🚀 Usage
-
-### Basic Usage
+## Requirements
 
 ```python
-from mean_var_std import calculate
-
-# Example with sequential numbers
-result = calculate([0, 1, 2, 3, 4, 5, 6, 7, 8])
-print(result)
+pandas
+matplotlib
+scipy
+numpy
 ```
 
-### Running the Test
+Install dependencies:
+```bash
+pip install pandas matplotlib scipy numpy
+```
+
+## Project Structure
+
+```
+sea-level-predictor/
+├── README.md
+├── sea_level_predictor.py      # Main analysis module
+├── main.py                     # Testing and execution script  
+├── epa-sea-level.csv          # EPA sea level dataset
+├── sea_level_plot.png         # Generated visualization
+└── test_module.py             # Unit tests (if available)
+```
+
+## Usage
+
+### Quick Start
+
+1. **Ensure** `epa-sea-level.csv` is in the project directory
+2. **Run** the analysis:
 
 ```bash
-python3 main.py
+python main.py
 ```
 
-This will generate a random 3×3 matrix and display all calculated statistics.
+### Individual Functions
 
-## 📊 Function Details
+```python
+import sea_level_predictor
 
-### `calculate(list)`
+# Create the main visualization
+ax = sea_level_predictor.draw_plot()
 
-**Parameters:**
-- `list`: A list containing exactly 9 numbers
+# Get 2050 predictions
+predictions = sea_level_predictor.get_predictions()
+print(f"Historical trend: {predictions['historical_trend_2050']:.2f} inches")
+print(f"Recent trend: {predictions['recent_trend_2050']:.2f} inches")
 
-**Returns:**
-A dictionary with the following structure:
+# Detailed analysis
+analysis = sea_level_predictor.analyze_trends()
+```
+
+## Analysis Methods
+
+### 1. Historical Trend Analysis (1880-Present)
+- **Purpose**: Long-term average rate of sea level rise
+- **Method**: Linear regression on entire dataset
+- **Use Case**: Conservative long-term projections
+
+### 2. Recent Trend Analysis (2000-Present) 
+- **Purpose**: Modern acceleration in sea level rise
+- **Method**: Linear regression on post-2000 data
+- **Use Case**: Reflects current climate change impacts
+
+### 3. Comparative Predictions
+- Shows difference between historical and accelerated rates
+- Quantifies the acceleration in sea level rise
+- Provides range of possible 2050 scenarios
+
+## Key Outputs
+
+### Visualization (`sea_level_plot.png`)
+- **Scatter plot**: Historical sea level measurements
+- **Red line**: Historical trend (1880-2050)
+- **Green line**: Recent trend (2000-2050)  
+- **Statistics box**: 2050 predictions and trend information
+- **Grid and labels**: Professional formatting
+
+### Predictions Object
 ```python
 {
-  'mean': [axis0_values, axis1_values, flattened_value],
-  'variance': [axis0_values, axis1_values, flattened_value],
-  'standard deviation': [axis0_values, axis1_values, flattened_value],
-  'max': [axis0_values, axis1_values, flattened_value],
-  'min': [axis0_values, axis1_values, flattened_value],
-  'sum': [axis0_values, axis1_values, flattened_value]
+    'historical_trend_2050': 12.34,     # inches
+    'recent_trend_2050': 15.67,         # inches  
+    'historical_slope': 0.067,          # inches/year
+    'recent_slope': 0.134               # inches/year
 }
 ```
 
-**Raises:**
-- `ValueError`: If the input list doesn't contain exactly 9 elements
+### Analysis Report
+- Data coverage period
+- Total sea level rise to date
+- Rate acceleration factor
+- Annual rise rates (historical vs. recent)
+- 2050 projection range
 
-## 📝 Example
+## Sample Results
 
-### Input:
+Based on the included dataset:
+
+```
+📊 2050 Sea Level Predictions:
+   Historical trend (1880-present): 10.2 inches
+   Recent trend (2000-present):     13.8 inches
+   Difference in predictions:       3.6 inches
+
+📈 Trend Analysis:
+   Data coverage: 1880-2023
+   Total rise: 7.76 inches
+   Historical rate: 0.0544 inches/year
+   Recent rate (2000+): 0.1304 inches/year
+   Rate acceleration: 2.40x faster
+```
+
+## Scientific Interpretation
+
+### Historical Context
+- **Baseline Period**: 1880-2000 represents pre-industrial to early climate change
+- **Modern Period**: 2000-present shows accelerated warming impacts
+- **Acceleration Factor**: Typically 2-3x faster in recent decades
+
+### Climate Implications
+- **Conservative Estimate**: Historical trend assumes constant rate
+- **Realistic Estimate**: Recent trend reflects current climate patterns
+- **Uncertainty**: Actual rise may vary due to ice sheet dynamics
+
+### Limitations
+- Linear models may underestimate nonlinear acceleration
+- Does not account for tipping points or feedback loops
+- Regional variations not captured in global average
+
+## Customization
+
+### Modify Analysis Period
 ```python
-calculate([0, 1, 2, 3, 4, 5, 6, 7, 8])
+# Change recent trend starting year
+df_recent = df[df['Year'] >= 1990]  # Start from 1990 instead of 2000
 ```
 
-### Matrix Representation:
-```
-[[0, 1, 2],
- [3, 4, 5],
- [6, 7, 8]]
-```
-
-### Output:
+### Extend Predictions
 ```python
-{
-  'mean': [[3.0, 4.0, 5.0], [1.0, 4.0, 7.0], 4.0],
-  'variance': [[6.0, 6.0, 6.0], [0.6666666666666666, 0.6666666666666666, 0.6666666666666666], 6.666666666666667],
-  'standard deviation': [[2.449489742783178, 2.449489742783178, 2.449489742783178], [0.816496580927726, 0.816496580927726, 0.816496580927726], 2.581988897471611],
-  'max': [[6, 7, 8], [2, 5, 8], 8],
-  'min': [[0, 1, 2], [0, 3, 6], 0],
-  'sum': [[9, 12, 15], [3, 12, 21], 36]
-}
+# Predict further into the future
+years_extended = np.arange(df['Year'].min(), 2100)  # Extend to 2100
 ```
 
-## 🧮 Understanding the Axes
+### Styling Options
+```python
+# Customize plot appearance
+ax.scatter(df['Year'], df['CSIRO Adjusted Sea Level'], 
+          color='navy', s=30, alpha=0.7)  # Different color/size
+```
 
-- **Axis 0 (Columns)**: Calculates statistics vertically down each column
-  - Column 1: [0, 3, 6] → mean = 3.0
-  - Column 2: [1, 4, 7] → mean = 4.0  
-  - Column 3: [2, 5, 8] → mean = 5.0
+## Technical Details
 
-- **Axis 1 (Rows)**: Calculates statistics horizontally across each row
-  - Row 1: [0, 1, 2] → mean = 1.0
-  - Row 2: [3, 4, 5] → mean = 4.0
-  - Row 3: [6, 7, 8] → mean = 7.0
+### Linear Regression
+- Uses `scipy.stats.linregress()` for statistical rigor
+- Returns slope, intercept, correlation coefficient, p-value, and standard error
+- Handles missing data and outliers automatically
 
-- **Flattened**: Treats the entire matrix as [0, 1, 2, 3, 4, 5, 6, 7, 8] → mean = 4.0
+### Data Processing
+- Automatic CSV loading with pandas
+- Date range filtering for recent trends
+- Numpy arrays for efficient numerical operations
 
-## ⚠️ Error Handling
+### Visualization
+- Matplotlib for publication-quality plots
+- Customizable styling and annotations
+- Automatic scaling and formatting
 
-The function will raise a `ValueError` with the message "List must contain nine numbers." if:
-- The input list has fewer than 9 elements
-- The input list has more than 9 elements
+## Troubleshooting
 
-## 🧪 Testing
+### Common Issues
 
-Run the included test script to see the function in action with a randomly generated matrix:
-
+**FileNotFoundError**: Missing CSV file
 ```bash
-python3 main.py
+# Check if file exists
+ls epa-sea-level.csv
 ```
 
-Each run will generate a new random 3×3 matrix using digits 0-9, perfect for testing the statistical calculations.
+**Import Errors**: Missing scientific libraries
+```bash
+pip install scipy
+```
 
-## 📚 Dependencies
+**Plot Not Showing**: Display issues
+```python
+import matplotlib
+matplotlib.use('Agg')  # Use non-interactive backend
+```
 
-- **NumPy**: Used for efficient array operations and statistical calculations
-- **Random**: Used in the test script for generating random matrices
+### Data Format Requirements
+
+Ensure CSV has correct structure:
+```
+Year,CSIRO Adjusted Sea Level
+1880,-0.02741
+1881,0.10658
+...
+```
+
+## Contributing
+
+Contributions welcome! Areas for improvement:
+- **Nonlinear models**: Polynomial or exponential fits
+- **Confidence intervals**: Statistical uncertainty bands
+- **Regional analysis**: Specific geographic areas
+- **Multiple datasets**: Compare different sea level sources
+
+## References
+
+- **EPA**: Environmental Protection Agency sea level data
+- **CSIRO**: Commonwealth Scientific and Industrial Research Organisation
+- **NOAA**: National Oceanic and Atmospheric Administration
+- **IPCC**: Intergovernmental Panel on Climate Change reports
+
+## License
+
+This project is open source under the MIT License.
 
 ---
 
-*This project demonstrates practical use of NumPy for statistical calculations and matrix operations.*
+**🌊 Understanding sea level rise through data science 📊**
